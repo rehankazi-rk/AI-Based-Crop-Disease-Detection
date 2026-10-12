@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.db
+.pytest_cache/
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+ml/dataset/
+ml/validation_dataset/
+ml/plantvillage.zip
+ml/plantvillage.zip.download
+backend/uploads/*
+!backend/uploads/.gitkeep
+.vscode/

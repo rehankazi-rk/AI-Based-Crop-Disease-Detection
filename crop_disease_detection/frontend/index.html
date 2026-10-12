@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f8f5" />
+    <meta name="description" content="Check tomato and potato leaf health with the CropCare disease detection app." />
+    <title>CropCare — Plant health, made clearer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="CropCare home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none"><path d="M25.7 5.2C15.4 5.4 8.5 8.1 7 15.1c-.8 3.7 1.4 6.6 4.7 6.7 7.8.3 12.4-7.3 14-16.6Z" fill="currentColor"/><path d="M5.5 27c3.1-7 8.2-11.6 15.4-15.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </span>
+        <span>cropcare<span class="brand-period">.</span></span>
+      </a>
+      <div class="topbar-right">
+        <span id="api-status" class="api-status"><span class="status-dot"></span><span>Connecting</span></span>
+        <div id="user-menu" class="user-menu" hidden>
+          <span id="user-avatar" class="user-avatar">G</span>
+          <span id="user-name" class="user-name">Grower</span>
+          <button id="logout-button" class="button button-quiet button-small" type="button">Sign out</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="auth-view" class="auth-layout" aria-labelledby="auth-title" hidden>
+        <div class="auth-intro">
+          <div class="eyebrow"><span class="eyebrow-line"></span> A clearer view of plant health</div>
+          <h1 id="auth-title">Healthy leaves.<br /><span>Better growing.</span></h1>
+          <p>Upload a clear photo of a tomato or potato leaf to get a quick AI-assisted check and keep your observations in one place.</p>
+          <div class="crop-pills" aria-label="Supported crops"><span>Tomato</span><span>Potato</span><span>7 conditions</span></div>
+          <div class="auth-note"><span class="note-icon">i</span><span>For guidance only. Always confirm important crop-health decisions with a qualified local expert.</span></div>
+        </div>
+        <div class="auth-card card">
+          <div class="auth-card-heading">
+            <div class="small-label">YOUR CROPCARE ACCOUNT</div>
+            <h2 id="form-title">Welcome back</h2>
+            <p id="form-subtitle">Sign in to continue to your workspace.</p>
+          </div>
+          <div class="auth-tabs" role="tablist" aria-label="Account access">
+            <button class="auth-tab is-active" id="login-tab" type="button" role="tab" aria-selected="true">Sign in</button>
+            <button class="auth-tab" id="register-tab" type="button" role="tab" aria-selected="false">Create account</button>
+          </div>
+          <form id="auth-form" novalidate>
+            <label class="field-label" id="username-label" for="username">Email address</label>
+            <input class="text-input" id="username" name="username" type="email" autocomplete="email" placeholder="you@example.com" required />
+            <div id="email-field" hidden>
+              <label class="field-label" for="email">Email address</label>
+              <input class="text-input" id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+            </div>
+            <label class="field-label" for="password">Password</label>
+            <input class="text-input" id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required />
+            <div id="auth-error" class="inline-message message-error" role="alert" hidden></div>
+            <button id="auth-submit" class="button button-primary button-full" type="submit">Sign in <span aria-hidden="true">→</span></button>
+          </form>
+          <p class="privacy-note">Your account and diagnosis history are private to you.</p>
+        </div>
+      </section>
+
+      <section id="dashboard-view" class="dashboard" hidden>
+        <div class="welcome-row">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-line"></span> YOUR PLANT HEALTH WORKSPACE</div>
+            <h1>Good to see you, <span id="welcome-name">grower</span></h1>
+            <p class="welcome-copy">Check a leaf, review a result, and keep track of what you’ve seen.</p>
+          </div>
+          <div class="model-chip"><span class="model-chip-dot"></span><span>Tomato &amp; potato model</span></div>
+        </div>
+
+        <div class="summary-grid">
+          <article class="summary-card card">
+            <span class="summary-icon icon-green" aria-hidden="true">↗</span>
+            <div><span class="summary-label">Your checks</span><strong id="checks-count">0</strong></div>
+            <span class="summary-foot">Saved to your history</span>
+          </article>
+          <article class="summary-card card">
+            <span class="summary-icon icon-amber" aria-hidden="true">✳</span>
+            <div><span class="summary-label">Supported crops</span><strong>2</strong></div>
+            <span class="summary-foot">Tomato and potato</span>
+          </article>
+          <article class="summary-card card">
+            <span class="summary-icon icon-blue" aria-hidden="true">⌁</span>
+            <div><span class="summary-label">Conditions</span><strong>7</strong></div>
+            <span class="summary-foot">Healthy and disease classes</span>
+          </article>
+        </div>
+
+        <div class="workspace-grid">
+          <section class="card analyze-card" aria-labelledby="analyze-title">
+            <div class="section-heading">
+              <div><div class="small-label">IMAGE CHECK</div><h2 id="analyze-title">Analyze a leaf</h2></div>
+              <span class="step-badge">01</span>
+            </div>
+            <p class="section-copy">Choose a clear, well-lit photo of one tomato or potato leaf.</p>
+            <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Choose or drop a leaf image">
+              <input id="image-input" type="file" accept="image/jpeg,image/png,.jpg,.jpeg,.png" hidden />
+              <div id="drop-empty" class="drop-empty">
+                <span class="upload-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14.5v3A2.5 2.5 0 0 0 7.5 20h9a2.5 2.5 0 0 0 2.5-2.5v-3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <strong>Drop your leaf photo here</strong>
+                <span>or <button id="browse-button" class="text-button" type="button">browse files</button></span>
+                <small>JPG or PNG · up to 5 MB</small>
+              </div>
+              <div id="drop-preview" class="drop-preview" hidden>
+                <img id="preview-image" alt="Selected leaf preview" />
+                <div class="preview-details"><strong id="preview-name"></strong><span id="preview-size"></span></div>
+                <button id="remove-image" class="remove-button" type="button" aria-label="Remove selected image">×</button>
+              </div>
+            </div>
+            <div id="upload-error" class="inline-message message-error" role="alert" hidden></div>
+            <button id="analyze-button" class="button button-primary button-full analyze-button" type="button" disabled>Analyze image <span aria-hidden="true">→</span></button>
+            <p class="privacy-note">Images are used to create your diagnosis record.</p>
+
+            <div id="result-panel" class="result-panel" hidden aria-live="polite">
+              <div class="result-divider"><span>ANALYSIS RESULT</span></div>
+              <div class="result-topline"><span id="result-status-icon" class="result-status-icon">✓</span><span id="result-status-text">Analysis complete</span><span id="result-date" class="result-date"></span></div>
+              <div class="result-diagnosis"><div><span class="summary-label">Crop</span><strong id="result-crop">—</strong></div><div><span class="summary-label">Model finding</span><strong id="result-disease">—</strong></div></div>
+              <div class="confidence-row"><span>Model confidence</span><strong id="result-confidence">—</strong></div>
+              <div class="confidence-track"><span id="confidence-bar"></span></div>
+              <p class="result-disclaimer">This is an AI-assisted result, not a confirmed diagnosis. Check the leaf and consult a local agriculture expert if symptoms persist.</p>
+            </div>
+          </section>
+
+          <aside class="card history-card" aria-labelledby="history-title">
+            <div class="section-heading">
+              <div><div class="small-label">YOUR RECORDS</div><h2 id="history-title">Recent checks</h2></div>
+              <span id="history-count" class="history-count">0</span>
+            </div>
+            <p class="section-copy">Your latest saved observations.</p>
+            <div id="history-error" class="inline-message message-error" role="alert" hidden></div>
+            <div id="history-loading" class="history-empty">Loading your history…</div>
+            <div id="history-empty" class="history-empty" hidden><span class="empty-icon" aria-hidden="true">⌕</span><strong>No checks yet</strong><span>Your first analysis will appear here.</span></div>
+            <div id="history-list" class="history-list" aria-live="polite"></div>
+            <div class="history-footer"><span class="history-footer-mark">i</span><span>History is linked to your account and only visible after sign in.</span></div>
+          </aside>
+        </div>
+        <footer class="page-footer"><span>CropCare · Plant health support</span><span>AI results are informational and should be reviewed with care.</span></footer>
+      </section>
+    </main>
+  </body>
+</html>

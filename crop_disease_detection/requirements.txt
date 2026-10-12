@@ -1,0 +1,14 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+sqlalchemy==2.0.35
+passlib[bcrypt]==1.7.4
+bcrypt==4.1.2
+PyJWT==2.9.0
+python-multipart==0.0.9
+pillow==10.4.0
+email-validator==2.2.0
+python-dotenv==1.0.1
+torch==2.14.1
+torchvision==0.29.1
+scikit-learn==1.5.2
+kagglehub==0.3.13
